@@ -1,0 +1,6 @@
+makecode:
+  target: adafruit
+  platform: codal
+  home_url: https://makecode.adafruit.com/
+theme: jekyll-theme-slate
+include: assets
