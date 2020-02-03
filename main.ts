@@ -140,7 +140,7 @@ function gamer() {
     const rowEffects = [effects.fire, effects.bubbles, effects.coolRadial];
 
     const MARGINX = 8
-    const MARGINY = 36
+    const MARGINY = 40
     const PADDING = 4
     columnSprite.top = MARGINY - 16 / 2 - PADDING
     tempoSprite.top = 4;
