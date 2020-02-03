@@ -1,6 +1,6 @@
 makecode:
-  target: adafruit
+  target: arcade
   platform: codal
-  home_url: https://makecode.adafruit.com/
+  home_url: https://arcade.makecode.com/
 theme: jekyll-theme-slate
 include: assets
