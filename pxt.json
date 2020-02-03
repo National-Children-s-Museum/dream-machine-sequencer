@@ -6,7 +6,7 @@
         "device": "*",
         "serial": "*",
         "microsoft-boot-sequence": "github:microsoft/pxt-microsoft-boot-sequence#v0.0.4",
-        "dream-machine-mosaic": "github:national-children-s-museum/dream-machine-mosaic#v0.0.1"
+        "dream-machine-mosaic": "github:national-children-s-museum/dream-machine-mosaic#v0.0.2"
     },
     "files": [
         "README.md",
