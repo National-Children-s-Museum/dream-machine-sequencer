@@ -3,7 +3,6 @@ interface CursorPosition {
     col: number;
     row: number;
 }
-game.consoleOverlay.setVisible(true)
 const redImage = img`
     . . . . . . . . . . . . . . . .
     . . . . . . 4 4 4 4 . . . . . .
@@ -194,8 +193,21 @@ function gamer() {
             tempoSprite.right = 0
         tempoSprite.top = 6 + 2 * Math.sin(tempoSprite.x / (16 + PADDING) * 2 * Math.PI)
         for (let i = 0; i < columns.length; ++i) {
-            if (Math.abs(columns[i][0].x - tempoSprite.x) < 10) {
-                columnSprite.x = columns[i][0].x;
+            const column = columns[i];
+            if (Math.abs(column[0].x - tempoSprite.x) < 10) {
+                const x = column[0].x;
+                const changed = columnSprite.x != x;
+                columnSprite.x = x;
+                if (changed) {
+                    // send color to mosaic
+                    let c = 0;
+                    for(let k = 0; k < ROWS; ++k) {
+                        if (column[k].image != offImage)
+                            c |= 0xff;
+                        c <<= 8;
+                    }
+                    dreamMachine.pod0.setColor(c);
+                }
                 break;
             }
         }
