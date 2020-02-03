@@ -44,15 +44,15 @@ const blueImage = img`
     . . . . . . . . . . . . . . . .
     . . . . . . 6 6 6 6 . . . . . .
     . . . . 6 6 6 5 5 6 6 6 . . . .
-    . . . 7 7 7 7 6 6 6 6 6 6 . . .
-    . . 6 7 7 7 7 8 8 8 1 1 6 6 . .
-    . . 7 7 7 7 7 8 8 8 1 1 5 6 . .
-    . 6 7 7 7 7 8 8 8 8 8 5 5 6 6 .
-    . 6 7 7 7 8 8 8 6 6 6 6 5 6 6 .
-    . 6 6 7 7 8 8 6 6 6 6 6 6 6 6 .
-    . 6 8 7 7 8 8 6 6 6 6 6 6 6 6 .
-    . . 6 8 7 7 8 6 6 6 6 6 8 6 . .
-    . . 6 8 8 7 8 8 6 6 6 8 6 6 . .
+    . . . 8 8 8 8 6 6 6 6 6 6 . . .
+    . . 6 8 8 8 8 8 8 8 1 1 6 6 . .
+    . . 8 8 8 8 8 8 8 8 1 1 5 6 . .
+    . 6 8 8 8 8 8 8 8 8 8 5 5 6 6 .
+    . 6 8 8 8 8 8 8 6 6 6 6 5 6 6 .
+    . 6 6 8 8 8 8 6 6 6 6 6 6 6 6 .
+    . 6 8 8 8 8 8 6 6 6 6 6 6 6 6 .
+    . . 6 8 8 8 8 6 6 6 6 6 8 6 . .
+    . . 6 8 8 8 8 8 6 6 6 8 6 6 . .
     . . . 6 8 8 8 8 8 8 8 8 6 . . .
     . . . . 6 6 8 8 8 8 6 6 . . . .
     . . . . . . 6 6 6 6 . . . . . .
@@ -127,13 +127,14 @@ function gamer() {
     const cursorSprites = [sprites.create(cursorImage, cursorKind), sprites.create(cursorImage, cursorKind)]
     cursorSprites[1].setImage(cursorSprites[1].image.clone())
     cursorSprites[1].image.replace(1, 5);
-    for (const sp of cursorSprites) {
+    cursorSprites.forEach(function (sp: Sprite, index: number) {
+        sp.z = 100
+        sp.say("P" + (index+ 1), Infinity)
         sp.data["pos"] = <CursorPosition>{
             col: 0,
             row: 0
         }
-        sp.z = 100
-    }
+    })
     const columns: Sprite[][] = []
 
     const colorImages = [redImage, greenImage, blueImage]
@@ -152,6 +153,7 @@ function gamer() {
             c.x = MARGINX + ci * (c.width + PADDING)
             c.y = MARGINY + j * (c.width + PADDING)
             column.push(c);
+            c.z = -1
         }
         columns.push(column);
     }
@@ -160,7 +162,7 @@ function gamer() {
         const p = columns[col][row];
         if (p.image == offImage) {
             p.setImage(colorImages[row]);
-            rowEffects[row].start(p);
+            rowEffects[row].start(p, 500)
         } else {
             p.setImage(offImage);
             effects.clearParticles(p)
