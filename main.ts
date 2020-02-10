@@ -60,16 +60,16 @@ const blueImage = img`
 const offImage = img`
     . . . . . . . . . . . . . . . .
     . . . . . . c c c c . . . . . .
-    . . . . e f c e e c c c . . . .
-    . . . e e e e c c c c c c . . .
-    . . e e e f e f f f e e c c . .
-    . . e e e e e f f f e e e c . .
-    . c e e e e f f f f f e e c c .
-    . c e e e f f f c c c c e c c .
-    . c c e e f f c c c c c c c c .
-    . c e e e f f c c c c c c c c .
-    . . c f e e f c c c c c f c . .
-    . . c f f e f f c c c f c c . .
+    . . . . c c c f f c c c . . . .
+    . . . c f f f f f c c c c . . .
+    . . c f f f f f f f f f c c . .
+    . . c f f f f f f f f f f c . .
+    . c f f f f f f f f f f f c c .
+    . c f f f f f f f f f c f c c .
+    . c c f f f f f f f f c f c c .
+    . c f f f f f f f f f c f c c .
+    . . c f f f f f f f c c f c . .
+    . . c f f f f f c c c f c c . .
     . . . c f f f f f f f f c . . .
     . . . . c c f f f f c c . . . .
     . . . . . . c c c c . . . . . .
@@ -123,11 +123,14 @@ function gamer() {
     const columnSprite = sprites.create(image.create(18, 64))
     columnSprite.image.drawRect(0, 0, columnSprite.image.width - 1, columnSprite.image.height - 1, 6)
     columnSprite.z = -1
-    const cursorSprites = [sprites.create(cursorImage, cursorKind), sprites.create(cursorImage, cursorKind)]
+    const cursorSprites = [
+        sprites.create(cursorImage, cursorKind), 
+        sprites.create(cursorImage, cursorKind)
+    ];
     cursorSprites[1].setImage(cursorSprites[1].image.clone())
     cursorSprites[1].image.replace(1, 5);
-    cursorSprites.forEach(function (sp: Sprite, index: number) {
-        sp.z = 100
+    cursorSprites.forEach((sp: Sprite, index: number) => {
+        sp.z = 100 - index
         sp.say("P" + (index+ 1), Infinity)
         sp.data["pos"] = <CursorPosition>{
             col: 0,
