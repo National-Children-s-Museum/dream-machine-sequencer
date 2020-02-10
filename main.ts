@@ -163,6 +163,8 @@ function gamer() {
             row: 0
         }
     })
+    cursorSprites[0].data["note"] = Note.A;
+    cursorSprites[1].data["note"] = Note.B;
     const columns: Sprite[][] = []
 
     const colorImages = [
@@ -284,7 +286,9 @@ function gamer() {
             const sp = cursorSprites[index];
             if (!sp) return;
             const pos = sp.data["pos"] as CursorPosition;
+            const note = sp.data["note"] as Note;
             togglePixel(pos.col, pos.row);
+            music.playTone(note, 20)
         })
     }
 
