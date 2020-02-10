@@ -1,3 +1,4 @@
+game.consoleOverlay.setVisible(true)
 
 interface CursorPosition {
     col: number;
@@ -255,4 +256,3 @@ function gamer() {
 storyboard.microsoftBootSequence.register();
 storyboard.registerScene("home", gamer);
 storyboard.start();
-gamer();
