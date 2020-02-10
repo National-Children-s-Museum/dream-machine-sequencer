@@ -131,6 +131,20 @@ const tempoImage = img`
     . . . c c c c c c c c b b . . .
 `
 
+const colorImages = [
+    redImage,
+    greenImage,
+    blueImage,
+    brightImage
+]
+const rowEffects = [
+    effects.fire,
+    effects.bubbles,
+    effects.coolRadial,
+    effects.fire
+];
+
+
 function gamer() {
     const MARGINX = 8
     const MARGINY = 40
@@ -159,26 +173,13 @@ function gamer() {
         sp.z = 100 - index
         sp.say("P" + (index+ 1), Infinity)
         sp.data["pos"] = <CursorPosition>{
-            col: 0,
-            row: 0
+            col: (COLUMNS / 2 + index) | 0,
+            row: (colorImages.length / 2)
         }
     })
     cursorSprites[0].data["note"] = Note.A;
     cursorSprites[1].data["note"] = Note.B;
     const columns: Sprite[][] = []
-
-    const colorImages = [
-        redImage, 
-        greenImage, 
-        blueImage,
-        brightImage
-    ]
-    const rowEffects = [
-        effects.fire, 
-        effects.bubbles, 
-        effects.coolRadial,
-        effects.fire
-    ];
 
     columnSprite.top = MARGINY - 16 / 2 - PADDING_Y
     tempoSprite.top = 4;
