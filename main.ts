@@ -58,6 +58,24 @@ const blueImage = img`
     . . . . . . 6 6 6 6 . . . . . .
     . . . . . . . . . . . . . . . .
 `
+const brightImage = img`
+    . . . . . . . . . . . . . . . .
+    . . . . . . d d d d . . . . . .
+    . . . . d d d 4 4 d d d . . . .
+    . . . 5 5 5 5 d d d d d d . . .
+    . . d 5 5 5 5 5 5 5 1 1 d d . .
+    . . 5 5 5 5 5 5 5 5 1 1 4 d . .
+    . d 5 5 5 5 5 5 5 5 5 4 4 d d .
+    . d 5 5 5 5 5 5 d d d d 4 d d .
+    . d d 5 5 5 5 d d d d d d d d .
+    . d 5 5 5 5 5 d d d d d d d d .
+    . . d 5 5 5 5 d d d d d 4 d . .
+    . . d 5 5 5 5 5 d d d 5 d d . .
+    . . . d 5 5 5 5 5 5 5 5 d . . .
+    . . . . d d 5 5 5 5 d d . . . .
+    . . . . . . d d d d . . . . . .
+    . . . . . . . . . . . . . . . .
+`
 const offImage = img`
     . . . . . . . . . . . . . . . .
     . . . . . . c c c c . . . . . .
@@ -114,14 +132,21 @@ const tempoImage = img`
 `
 
 function gamer() {
+    const MARGINX = 8
+    const MARGINY = 40
+    const PADDING_X = 4
+    const PADDING_Y = 2
     const COLUMNS = 8
     const ROWS = 3
+    const BRIGHTNESS_UP_ROW = 3
+    const CURSOR_WIDTH = 16 + 4
+    const CURSOR_HEIGHT = (ROWS + 1) * (16 + PADDING_Y) + 2 * PADDING_Y
     const pixelKind = SpriteKind.create();
     const cursorKind = SpriteKind.create();
 
     const tempoSprite = sprites.create(tempoImage)
     tempoSprite.vx = 30
-    const columnSprite = sprites.create(image.create(18, 64))
+    const columnSprite = sprites.create(image.create(CURSOR_WIDTH, CURSOR_HEIGHT))
     columnSprite.image.drawRect(0, 0, columnSprite.image.width - 1, columnSprite.image.height - 1, 6)
     columnSprite.z = -1
     const cursorSprites = [
@@ -140,21 +165,28 @@ function gamer() {
     })
     const columns: Sprite[][] = []
 
-    const colorImages = [redImage, greenImage, blueImage]
-    const rowEffects = [effects.fire, effects.bubbles, effects.coolRadial];
+    const colorImages = [
+        redImage, 
+        greenImage, 
+        blueImage,
+        brightImage
+    ]
+    const rowEffects = [
+        effects.fire, 
+        effects.bubbles, 
+        effects.coolRadial,
+        effects.fire
+    ];
 
-    const MARGINX = 8
-    const MARGINY = 40
-    const PADDING = 4
-    columnSprite.top = MARGINY - 16 / 2 - PADDING
+    columnSprite.top = MARGINY - 16 / 2 - PADDING_Y
     tempoSprite.top = 4;
     tempoSprite.left = MARGINX;
     for (let ci = 0; ci < COLUMNS; ++ci) {
         const column: Sprite[] = [];
         for (let j = 0; j < colorImages.length; ++j) {
             const c = sprites.create(offImage, pixelKind);
-            c.x = MARGINX + ci * (c.width + PADDING)
-            c.y = MARGINY + j * (c.width + PADDING)
+            c.x = MARGINX + ci * (c.width + PADDING_X)
+            c.y = MARGINY + j * (c.width + PADDING_Y)
             column.push(c);
             c.z = -1
         }
@@ -163,7 +195,8 @@ function gamer() {
 
     const togglePixel = (col: number, row: number) => {
         const p = columns[col][row];
-        if (p.image == offImage) {
+        const off = p.image == offImage;
+        if (off) {
             p.setImage(colorImages[row]);
             rowEffects[row].start(p, 500)
         } else {
@@ -195,7 +228,7 @@ function gamer() {
             setCursorPosition(sp);
         if (tempoSprite.left > screen.width)
             tempoSprite.right = 0
-        tempoSprite.top = 6 + 2 * Math.sin(tempoSprite.x / (16 + PADDING) * 2 * Math.PI)
+        tempoSprite.top = 6 + 2 * Math.sin(tempoSprite.x / (16 + PADDING_X) * 2 * Math.PI)
         for (let i = 0; i < columns.length; ++i) {
             const column = columns[i];
             if (Math.abs(column[0].x - tempoSprite.x) < 10) {
@@ -211,6 +244,11 @@ function gamer() {
                         c <<= 8;
                     }
                     dreamMachine.pod0.setColor(c);
+                    // send brightness
+                    let b = 0x0f;
+                    if (column[k].image != offImage)
+                        b = 0xff;
+                    dreamMachine.pod0.setBrightness(b);
                 }
                 break;
             }
@@ -234,13 +272,13 @@ function gamer() {
             const sp = cursorSprites[index];
             if (!sp) return;
             const pos = sp.data["pos"] as CursorPosition;
-            pos.row = (pos.row - 1 + ROWS) % ROWS;
+            pos.row = (pos.row - 1 + colorImages.length) % colorImages.length;
         })
         ctrl.down.onEvent(ControllerButtonEvent.Pressed, function () {
             const sp = cursorSprites[index];
             if (!sp) return;
             const pos = sp.data["pos"] as CursorPosition;
-            pos.row = (pos.row + 1) % ROWS;
+            pos.row = (pos.row + 1) % colorImages.length;
         })
         ctrl.A.onEvent(ControllerButtonEvent.Pressed, function () {
             const sp = cursorSprites[index];
@@ -253,6 +291,6 @@ function gamer() {
     [controller.player1, controller.player2].forEach((ctrl, index) => ct(ctrl, index));
 }
 
-storyboard.microsoftBootSequence.register();
+//storyboard.microsoftBootSequence.register();
 storyboard.registerScene("home", gamer);
 storyboard.start();
