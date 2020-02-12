@@ -1,6 +1,6 @@
 # Dream Machine Sequencer
 
-* try it! [{{ site.github.homepage  }}]({{ site.github.homepage }})
+* try it! [https://national-children-s-museum.github.io/dream-machine-sequencer/](https://national-children-s-museum.github.io/dream-machine-sequencer/)
 
 ## Use this extension
 
