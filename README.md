@@ -1,4 +1,6 @@
-> Open this page at [https://national-children-s-museum.github.io/pxt-tinkerer/](https://national-children-s-museum.github.io/pxt-tinkerer/)
+# Dream Machine Sequencer
+
+* try it! [{{ site.github.homepage  }}]({{ site.github.homepage }})
 
 ## Use this extension
 
