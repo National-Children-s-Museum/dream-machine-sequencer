@@ -1,5 +1,4 @@
 game.consoleOverlay.setVisible(true)
-
 interface CursorPosition {
     col: number;
     row: number;
@@ -146,20 +145,23 @@ const rowEffects = [
 
 
 function gamer() {
-    const MARGINX = 8
-    const MARGINY = 40
-    const PADDING_X = 4
-    const PADDING_Y = 2
-    const COLUMNS = 8
-    const ROWS = 3
-    const BRIGHTNESS_UP_ROW = 3
-    const CURSOR_WIDTH = 16 + 4
-    const CURSOR_HEIGHT = (ROWS + 1) * (16 + PADDING_Y) + 2 * PADDING_Y
+    const MARGINX = 8;
+    const MARGINY = 40;
+    const PADDING_X = 4;
+    const PADDING_Y = 2;
+    const COLUMNS = 8;
+    const ROWS = 3;
+    const CURSOR_WIDTH = 16 + 2;
+    const CURSOR_HEIGHT = (ROWS + 1) * (16 + PADDING_Y) + 2 * PADDING_Y;
+    const TEMPO_SPEED = 30;
+    const MOSAIC_INTERVAL = ((CURSOR_WIDTH + PADDING_X) / 30 * 1000) | 0
+    const LOW_BRIGHTNESS = 0x40;
+    const HIGHT_BRIGTNESS = 0x60;
     const pixelKind = SpriteKind.create();
     const cursorKind = SpriteKind.create();
 
     const tempoSprite = sprites.create(tempoImage)
-    tempoSprite.vx = 30
+    tempoSprite.vx = TEMPO_SPEED
     const columnSprite = sprites.create(image.create(CURSOR_WIDTH, CURSOR_HEIGHT))
     columnSprite.image.drawRect(0, 0, columnSprite.image.width - 1, columnSprite.image.height - 1, 6)
     columnSprite.z = -1
@@ -181,7 +183,7 @@ function gamer() {
     cursorSprites[1].data["note"] = Note.B;
     const columns: Sprite[][] = []
 
-    columnSprite.top = MARGINY - 16 / 2 - PADDING_Y
+    columnSprite.top = MARGINY - 16 / 2 - PADDING_Y + 1
     tempoSprite.top = 4;
     tempoSprite.left = MARGINX;
     for (let ci = 0; ci < COLUMNS; ++ci) {
@@ -243,14 +245,13 @@ function gamer() {
                     let c = 0;
                     for(let k = 0; k < ROWS; ++k) {
                         if (column[k].image != offImage)
-                            c |= 0xff;
-                        c <<= 8;
+                            c |= (0x70 << (8 * (ROWS - 1- k)));
                     }
                     dreamMachine.pod0.setColor(c);
                     // send brightness
-                    let b = 0x0f;
-                    if (column[k].image != offImage)
-                        b = 0xff;
+                    let b = LOW_BRIGHTNESS;
+                    if (column[ROWS].image != offImage)
+                        b = HIGHT_BRIGTNESS;
                     dreamMachine.pod0.setBrightness(b);
                 }
                 break;
@@ -294,6 +295,11 @@ function gamer() {
     }
 
     [controller.player1, controller.player2].forEach((ctrl, index) => ct(ctrl, index));
+
+    dreamMachine.setUpdateInterval(MOSAIC_INTERVAL)
+
+    //dreamMachine.debug = true
+    //dreamMachine.setUpdateInterval(5000)
 }
 
 storyboard.microsoftBootSequence.register();
