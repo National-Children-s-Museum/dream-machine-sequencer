@@ -4,13 +4,12 @@
 
 ## Edit this extension ![Build status badge](https://github.com/national-children-s-museum/pxt-tinkerer/workflows/MakeCode/badge.svg)
 
-To edit this repository in MakeCode.
+To edit this repository in MakeCode...
 
-* open [https://makecode.adafruit.com/](https://makecode.adafruit.com/)
+* open [https://arcade.makecode.com/beta](https://arcade.makecodd.com/beta)
 * click on **Import** then click on **Import URL**
-* paste **https://github.com/national-children-s-museum/pxt-tinkerer** and click import
+* paste https://github.com/National-Children-s-Museum/dream-machine-sequencer and click import
 
 #### Metadata (used for search, rendering)
 
-* for PXT/adafruit
-<script src="https://makecode.com/gh-pages-embed.js"></script><script>makeCodeRender("{{ site.makecode.home_url }}", "{{ site.github.owner_name }}/{{ site.github.repository_name }}");</script>
+* for PXT/arcade
