@@ -296,6 +296,6 @@ function gamer() {
     [controller.player1, controller.player2].forEach((ctrl, index) => ct(ctrl, index));
 }
 
-//storyboard.microsoftBootSequence.register();
+storyboard.microsoftBootSequence.register();
 storyboard.registerScene("home", gamer);
 storyboard.start();
