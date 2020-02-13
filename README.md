@@ -2,15 +2,6 @@
 
 * try it! [https://national-children-s-museum.github.io/dream-machine-sequencer/](https://national-children-s-museum.github.io/dream-machine-sequencer/)
 
-## Use this extension
-
-This repository can be added as an **extension** in MakeCode.
-
-* open [https://makecode.adafruit.com/](https://makecode.adafruit.com/)
-* click on **New Project**
-* click on **Extensions** under the gearwheel menu
-* search for **https://github.com/national-children-s-museum/pxt-tinkerer** and import
-
 ## Edit this extension ![Build status badge](https://github.com/national-children-s-museum/pxt-tinkerer/workflows/MakeCode/badge.svg)
 
 To edit this repository in MakeCode.
