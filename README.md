@@ -7,7 +7,7 @@
 To edit this repository in MakeCode...
 
 * open [https://arcade.makecode.com/beta](https://arcade.makecodd.com/beta)
-* click on **Import** then click on **Import URL**
+* click on **Import** then click on **Import URL**!
 * paste https://github.com/National-Children-s-Museum/dream-machine-sequencer and click import
 
 #### Metadata (used for search, rendering)
