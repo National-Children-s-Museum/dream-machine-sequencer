@@ -151,7 +151,7 @@ function gamer() {
     const PADDING_Y = 2;
     const COLUMNS = 8;
     const ROWS = 3;
-    const CURSOR_WIDTH = 16 + 2;
+    const CURSOR_WIDTH = 16 + 4;
     const CURSOR_HEIGHT = (ROWS + 1) * (16 + PADDING_Y) + 2 * PADDING_Y;
     const TEMPO_SPEED = 30;
     const MOSAIC_INTERVAL = ((CURSOR_WIDTH + PADDING_X) / 30 * 1000) | 0
@@ -190,8 +190,8 @@ function gamer() {
         const column: Sprite[] = [];
         for (let j = 0; j < colorImages.length; ++j) {
             const c = sprites.create(offImage, pixelKind);
-            c.x = MARGINX + ci * (c.width + PADDING_X)
-            c.y = MARGINY + j * (c.width + PADDING_Y)
+            c.x = 2 + MARGINX + ci * (c.width + PADDING_X)
+            c.y = 2 + MARGINY + j * (c.width + PADDING_Y)
             column.push(c);
             c.z = -1
         }
@@ -231,12 +231,14 @@ function gamer() {
     game.onUpdate(() => {
         for (const sp of cursorSprites)
             setCursorPosition(sp);
-        if (tempoSprite.left > screen.width)
-            tempoSprite.right = 0
+        if (tempoSprite.x + 15 > screen.width)
+            tempoSprite.x = tempoSprite.x % screen.width;
         tempoSprite.top = 6 + 2 * Math.sin(tempoSprite.x / (16 + PADDING_X) * 2 * Math.PI)
+        const tx = tempoSprite.x % screen.width; 
         for (let i = 0; i < columns.length; ++i) {
             const column = columns[i];
-            if (Math.abs(column[0].x - tempoSprite.x) < 10) {
+            if (tx >= 10 &&
+                Math.abs(column[0].x - tx) < 10) {
                 const x = column[0].x;
                 const changed = columnSprite.x != x;
                 columnSprite.x = x;
